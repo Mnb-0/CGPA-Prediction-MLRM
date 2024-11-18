@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-*.csv
+form_responses.csv
 Lecture-24 Introduction to R.R
