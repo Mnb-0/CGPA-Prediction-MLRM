@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+*.csv
+Lecture-24 Introduction to R.R
