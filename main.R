@@ -5,46 +5,51 @@ library(dplyr)
 # Load the dataset
 data <- read.csv("form_responses.csv")
 
-
 # Rename the columns
-colnames(data) <- c("Time","Name","RollNumber","CGPA","Avg Attendance", "Highschool %", "Study Hours/ Week","Exercise Hours/ Week","Sleep Hours/ Day")
-# Confirm the updated column names
-colnames(data)
+colnames(data) <- c(
+    "Time", "Name", "RollNumber", "CGPA", "Avg Attendance",
+    "Highschool %", "Study Hours/Week", "Exercise Hours/Week", "Sleep Hours/Day"
+)
 
-# Drop the first two columns
+# Drop the first two columns (Time and Name)
 data <- data[, -c(1, 2)]
 
-# Add a new column for Batch based on the first two digits of the RollNumber
-data$Batch <- substr(data$RollNumber, 1, 2)
-data$Batch <- as.numeric(data$Batch)
+# Add a new column for Batch based on the first two digits of RollNumber
+data$Batch <- substr(data$RollNumber, 1, 2) %>% as.numeric()
 
-#Drop RollNumber
+# Drop the RollNumber column
 data <- data[, -1]
 
-# Add a new column for MeanAttendance based on the average of the intervals in Avg Attendance
+# Calculate MeanAttendance based on intervals in Avg Attendance
 data$MeanAttendance <- sapply(data$`Avg Attendance`, function(interval) {
-  # Check if the interval is NA or empty
-  if (is.na(interval) || interval == "") {
-    return(NA)  # Assign NA for missing or empty values
-  }
-  
-  # Remove the '%' character and split the interval by '-'
-  interval_cleaned <- gsub("%", "", interval)
-  bounds <- as.numeric(unlist(strsplit(interval_cleaned, "-")))
-  
-  # calculate the mean
-  if (length(bounds) == 2) {
-    return(mean(bounds))
-  } else if (length(bounds) == 1) {
-    return(bounds)  # Handle single numeric values
-  } else {
-    return(NA)  # Assign NA for unexpected formats
-  }
+    # Check for missing or empty intervals
+    if (is.na(interval) || interval == "") {
+        return(NA)
+    }
+
+    # Clean the interval by removing '%' and splitting by '-'
+    interval_cleaned <- gsub("%", "", interval)
+    bounds <- as.numeric(unlist(strsplit(interval_cleaned, "-")))
+
+    # Calculate the mean of the interval bounds
+    if (length(bounds) == 2) {
+        return(mean(bounds))
+    } else if (length(bounds) == 1) {
+        return(bounds) # Handle single numeric values
+    } else {
+        return(NA) # Assign NA for unexpected formats
+    }
 })
 
 # Add a column for debarrment status
 data$Debarred <- ifelse(data$MeanAttendance < 80, "Yes", "No")
 
+# Set NA values in the Debarred column to "Yes"
+data$Debarred[is.na(data$Debarred)] <- "Yes"
+
+# Assign MeanAttendance = 75 for rows where Debarred = "Yes"
+data$MeanAttendance[data$Debarred == "Yes"] <- 75
+
 # Confirm the changes
-str(data)
-head(data)
+str(data) # Check the structure of the dataset
+head(data) # Preview the first few rows of the dataset
