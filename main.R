@@ -48,3 +48,21 @@ outliers <- numeric_data %>%
     ))
 
 print(outliers)
+
+# Remove outliers
+cleaned_data <- numeric_data %>%
+    filter(across(
+        everything(),
+        ~ {
+            Q1 <- quantile(., 0.25, na.rm = TRUE)
+            Q3 <- quantile(., 0.75, na.rm = TRUE)
+            IQR <- Q3 - Q1
+            . >= (Q1 - 1.5 * IQR) & . <= (Q3 + 1.5 * IQR)
+        }
+    ))
+
+# Save cleaned data to a new CSV file
+write.csv(cleaned_data, "outliers_removed.csv", row.names = FALSE)
+
+# Confirm the cleaned data was saved
+print("Cleaned data saved to 'outliers_removed.csv'")
