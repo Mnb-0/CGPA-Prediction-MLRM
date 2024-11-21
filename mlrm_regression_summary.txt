@@ -1,0 +1,23 @@
+
+Call:
+lm(formula = formula, data = cleaned_data)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.038265 -0.017771 -0.003887  0.017777  0.048068 
+
+Coefficients: (1 not defined because of singularities)
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    -3.349225   0.110596 -30.283   <2e-16 ***
+highschool      0.001125   0.001013   1.111   0.2707    
+studytime       0.034919   0.010613   3.290   0.0016 ** 
+sleeptime       0.002070   0.001853   1.117   0.2679    
+batch                 NA         NA      NA       NA    
+meanattendance  0.067591   0.002208  30.615   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.02248 on 67 degrees of freedom
+Multiple R-squared:  0.998,	Adjusted R-squared:  0.9979 
+F-statistic:  8442 on 4 and 67 DF,  p-value: < 2.2e-16
+
