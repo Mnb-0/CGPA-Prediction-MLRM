@@ -1,6 +1,6 @@
 # CGPA Prediction: Multiple Linear Regression (R)
 
-Predicts a university student's **CGPA** from study habits and academic history, using a multiple linear regression model built in R. The data comes from a survey of FAST-NUCES students that I designed and ran myself.
+Predicts a university student's **CGPA** from study habits and academic history, using a multiple linear regression model built in R. The data comes from a survey of FAST-NUCES students (72 responses, all from the 2023 intake).
 
 ## Data
 
@@ -36,7 +36,7 @@ From [`mlrm_regression_summary.txt`](mlrm_regression_summary.txt), on 72 observa
 - **Adjusted R² = 0.998**
 - **Attendance** is the dominant predictor: each extra percentage point of attendance adds about 0.07 to CGPA. **Study time** is also significant.
 - **High-school percentage and sleep** are not significant.
-- **`batch`** came out as `NA`. Every respondent who remained after cleaning was in the same batch, so the variable is constant and perfectly collinear with the intercept.
+- **`batch`** came out as `NA`. Every respondent is from the 2023 batch, so the variable is constant and perfectly collinear with the intercept.
 
 **Caveat:** an R² this close to 1 on a small, self-reported survey is a warning sign, not a success. It most likely reflects the small sample, a single batch, and attendance being reported in coarse bands. Treat the coefficients as descriptive of this sample, not as a general model.
 
